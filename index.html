@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Painting Gallery</title>
+		<script src="https://unpkg.com/vue@3.2.47/dist/vue.global.js"></script>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link href="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lightgallery.css" rel="stylesheet">
+	</head>
+
+	<body class="bg-white">
+
+
+		<main class="px-8">
+			<div class="text-center  mb-4">
+				<h1 class="text-4xl font-bold px-8 pt-10 pb-4">Colin O'Brien Art</h1>
+				<a class="hover:underline font-bold text-lg" href="mailto:colin@colinobrienart.com" >Contact</a>
+			</div>
+			<div id="app">
+
+				<div class="columns-3 gap-4 space-y-4"  id="gallery-container">
+					<img :data-sub-html="painting" v-for="painting in paintings" :key="painting" class="shadow w-full" :src="'paintings/' + painting + '.jpg'" :alt="painting" />
+				</div>
+
+			</div>
+		</main>
+
+
+	</body>
+
+</html>
+
+<script type="module">
+	import lightgallery from 'https://cdn.jsdelivr.net/npm/lightgallery@2.8.2/+esm'
+	import lightGallery from "https://cdn.skypack.dev/lightgallery@2.0.0-beta.4";
+
+	import lgZoom from "https://cdn.skypack.dev/lightgallery@2.0.0-beta.4/plugins/zoom";
+
+	const $galleryContainer = document.getElementById("gallery-container");
+
+	const customButtons = `<button type="button" id="lg-toolbar-prev" aria-label="Previous slide" class="lg-toolbar-prev lg-icon">  </button><button type="button" id="lg-toolbar-next" aria-label="Next slide" class="lg-toolbar-next lg-icon">  </button>`;
+
+	$galleryContainer.addEventListener("lgInit", (event) => {
+		const pluginInstance = event.detail.instance;
+
+		// Note append and find are not jQuery methods
+		// These are utility methods provided by lightGallery
+		const $toolbar = pluginInstance.outer.find(".lg-toolbar");
+		$toolbar.prepend(customButtons);
+		document.getElementById("lg-toolbar-prev").addEventListener("click", () => {
+			pluginInstance.goToPrevSlide();
+		});
+		document.getElementById("lg-toolbar-next").addEventListener("click", () => {
+			pluginInstance.goToNextSlide();
+		});
+	});
+
+	lightGallery($galleryContainer, {
+		speed: 500,
+		controls: false,
+		plugins: [lgZoom]
+	});
+
+</script>
+
+<script>
+	const { createApp } = Vue;
+
+	createApp({
+		data() {
+			return {
+				paintings: [
+					
+					"Saltford Quays",
+					"Sunrise Over Gibratar",
+					"Winter Bridge",
+					"City Moonlight",
+					"The Dancer",
+					"Watching The Sunset",
+					
+				]
+			};
+		}
+	}).mount('#app');
+</script>
