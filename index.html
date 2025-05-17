@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Painting Gallery</title>
+		<title>Colin O'Brien Art</title>
 		<script src="https://unpkg.com/vue@3.2.47/dist/vue.global.js"></script>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<link href="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lightgallery.css" rel="stylesheet">
@@ -16,7 +16,7 @@
 		<main class="px-8">
 			<div class="text-center  mb-4">
 				<h1 class="text-4xl font-bold px-8 pt-10 pb-4">Colin O'Brien Art</h1>
-				<a class="hover:underline font-bold text-lg" href="mailto:colin@colinobrienart.com" >Contact</a>
+				<a class="hover:underline font-bold text-lg" href="mailto:colin.obrien.art@gmail.com" target="_blank" >Contact</a>
 			</div>
 			<div id="app">
 
@@ -66,22 +66,20 @@
 </script>
 
 <script>
-	const { createApp } = Vue;
 
+	const paintings = [
+		"Saltford Quays",
+		"Sunrise Over Gibratar",
+		"Winter Bridge",
+		"City Moonlight",
+		"The Dancer",
+		"Watching The Sunset",
+	]
+
+	const { createApp } = Vue;
 	createApp({
 		data() {
-			return {
-				paintings: [
-					
-					"Saltford Quays",
-					"Sunrise Over Gibratar",
-					"Winter Bridge",
-					"City Moonlight",
-					"The Dancer",
-					"Watching The Sunset",
-					
-				]
-			};
+			return { paintings };
 		}
 	}).mount('#app');
 </script>
