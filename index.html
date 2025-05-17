@@ -20,8 +20,8 @@
 			</div>
 			<div id="app">
 
-				<div class="columns-3 gap-4 space-y-4"  id="gallery-container">
-					<img :data-sub-html="painting" v-for="painting in paintings" :key="painting" class="shadow w-full" :src="'paintings/' + painting + '.jpg'" :alt="painting" />
+				<div class="columns-3 gap-4 space-y-4" id="gallery-container">
+					<img :data-sub-html="titleCase(painting)" v-for="painting in paintings" :key="painting" class="shadow w-full" :src="'paintings/' + painting + '.jpg'" :alt="painting" />
 				</div>
 
 			</div>
@@ -82,6 +82,11 @@
 	createApp({
 		data() {
 			return { paintings };
+		},
+		methods: {
+			titleCase(str) {
+				return str.replace(/\b\w/g, char => char.toUpperCase());
+			}
 		}
 	}).mount('#app');
 </script>
