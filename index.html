@@ -24,12 +24,12 @@
 			</div>
 			<div id="app">
 				<div class="columns-3 gap-4 space-y-4" id="gallery-container">
-					<img :data-sub-html="titleCase(painting)" v-for="painting in paintings" :key="painting" class="shadow w-full" :src="'paintings/' + painting + '.jpg'" :alt="painting" />
+					<img :data-sub-html="titleCase(painting)" v-for="painting in paintings" :key="painting" class="shadow w-full" :src="'paintings/' + painting" :alt="painting" />
 				</div>
 			</div>
 		</main>
 	</body>
-	
+
 </html>
 
 <script type="module">
@@ -66,31 +66,27 @@
 </script>
 <script>
 
-
-	const paintings = [
-		"Saltford Quays",
-		"Sunrise Over Gibratar",
-		"Winter Bridge",
-		"City Moonlight",
-		"The Dancer",
-		"Watching The Sunset",
-		"winter in stockholm",
-		"Bluebells carpet",
-		"Misty Trees January 2023",
-		"Enchanted Wood",
-		"Tintern Abbey",
-		"Tromso Norway",
-		"Moonlight Swansea Bay",
-	]
-
 	const { createApp } = Vue;
 	createApp({
 		data() {
-			return { paintings };
+			return {
+				paintings: [],
+				loading: true
+			}
+		},
+		async created() {
+			try {
+				const response = await fetch('/paintings/images.json');
+				this.paintings = await response.json();
+			} catch (error) {
+				console.error('Error loading images:', error);
+			} finally {
+				this.loading = false;
+			}
 		},
 		methods: {
 			titleCase(str) {
-				return str.replace(/\b\w/g, char => char.toUpperCase());
+				return str.replace(/\b\w/g, char => char.toUpperCase()).replace(/\.[^/.]+$/, '');
 			}
 		}
 	}).mount('#app');
