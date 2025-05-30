@@ -66,41 +66,18 @@
 </script>
 <script>
 
-
-	
-	const paintings = [
-		"Saltford Quays",
-		"Sunrise Over Gibratar",
-		"Winter Bridge",
-		"City Moonlight",
-		"The Dancer",
-		"Watching The Sunset",
-		"winter in stockholm",
-		"Bluebells carpet",
-		"Misty Trees January 2023",
-		"Enchanted Wood",
-		"Tintern Abbey",
-		"Tromso Norway",
-		"Moonlight Swansea Bay",
-	]
-
 	const { createApp } = Vue;
 	createApp({
 		data() {
 			return {
-				images: [],
+				paintings: [],
 				loading: true
-			}
-		},
-		computed: {
-			paintings() {
-				return this.images;
 			}
 		},
 		async created() {
 			try {
 				const response = await fetch('/paintings/images.json');
-				this.images = await response.json();
+				this.paintings = await response.json();
 			} catch (error) {
 				console.error('Error loading images:', error);
 			} finally {
