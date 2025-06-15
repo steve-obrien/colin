@@ -25,8 +25,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Ensure paintings directory exists
+        run: |
+          mkdir -p paintings
+          chmod 755 paintings
+
       - name: Build site (with image manifest)
-        run: npm run build --if-present
+        run: |
+          ls -la paintings/
+          npm run build --if-present
+          ls -la paintings/
+          cat paintings/images.json
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
