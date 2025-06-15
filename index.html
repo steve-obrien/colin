@@ -76,7 +76,7 @@
 		},
 		async created() {
 			try {
-				const response = await fetch('/data/images.json');
+				const response = await fetch('/paintings/images.json');
 				this.paintings = await response.json();
 			} catch (error) {
 				console.error('Error loading images:', error);
