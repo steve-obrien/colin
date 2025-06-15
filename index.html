@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Colin O'Brien Art</title>
+		<script src="https://unpkg.com/vue@3.2.47/dist/vue.global.js"></script>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link href="https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lightgallery.css" rel="stylesheet">
+	</head>
+
+	<body class="bg-white">
+
+		<main class="px-8">
+			<div class="flex mx-auto shrink-0 justify-center my-8">
+				<div class="mr-4 shrink-0 self-center">
+					<img src="profile.png" alt="Colin O'Brien Art" class="rounded-full inline-block w-12 h-12 sm:w-24 sm:h-24 mx-auto">
+				</div>
+				<div>
+					<h1 class="text-lg sm:text-2xl md:text-4xl font-mono font-bold">Colin O'Brien Art</h1>
+					<a class="underline font-mono text-md sm:text-xl md:text-2xl" href="mailto:colin.obrien.art@gmail.com" target="_blank">Contact</a>
+				</div>
+			</div>
+			<div id="app">
+				<div class="columns-3 gap-4 space-y-4" id="gallery-container">
+					<img :data-sub-html="titleCase(painting)" v-for="painting in paintings" :key="painting" class="shadow w-full" :src="'paintings/' + painting" :alt="painting" />
+				</div>
+			</div>
+		</main>
+	</body>
+
+</html>
+
+<script type="module">
+	import lightgallery from 'https://cdn.jsdelivr.net/npm/lightgallery@2.8.2/+esm'
+	import lightGallery from "https://cdn.skypack.dev/lightgallery@2.0.0-beta.4";
+
+	import lgZoom from "https://cdn.skypack.dev/lightgallery@2.0.0-beta.4/plugins/zoom";
+
+	const $galleryContainer = document.getElementById("gallery-container");
+
+	const customButtons = `<button type="button" id="lg-toolbar-prev" aria-label="Previous slide" class="lg-toolbar-prev lg-icon">  </button><button type="button" id="lg-toolbar-next" aria-label="Next slide" class="lg-toolbar-next lg-icon">  </button>`;
+
+	$galleryContainer.addEventListener("lgInit", (event) => {
+		const pluginInstance = event.detail.instance;
+
+		// Note append and find are not jQuery methods
+		// These are utility methods provided by lightGallery
+		const $toolbar = pluginInstance.outer.find(".lg-toolbar");
+		$toolbar.prepend(customButtons);
+		document.getElementById("lg-toolbar-prev").addEventListener("click", () => {
+			pluginInstance.goToPrevSlide();
+		});
+		document.getElementById("lg-toolbar-next").addEventListener("click", () => {
+			pluginInstance.goToNextSlide();
+		});
+	});
+
+	lightGallery($galleryContainer, {
+		speed: 500,
+		controls: false,
+		plugins: [lgZoom]
+	});
+
+</script>
+<script>
+
+	const { createApp } = Vue;
+	createApp({
+		data() {
+			return {
+				paintings: [],
+				loading: true
+			}
+		},
+		async created() {
+			try {
+				const response = await fetch('/paintings/images.json');
+				this.paintings = await response.json();
+			} catch (error) {
+				console.error('Error loading images:', error);
+			} finally {
+				this.loading = false;
+			}
+		},
+		methods: {
+			titleCase(str) {
+				return str.replace(/\b\w/g, char => char.toUpperCase()).replace(/\.[^/.]+$/, '');
+			}
+		}
+	}).mount('#app');
+</script>
