@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,21 +24,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Ensure paintings directory exists
-        run: |
-          mkdir -p paintings
-          chmod 755 paintings
-
       - name: Build site (with image manifest)
-        run: |
-          ls -la paintings/
-          npm run build --if-present
-          ls -la paintings/
-          cat paintings/images.json
-      
-      - name: Deploy to GitHub Pages
+        run: npm run build --if-present
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
+          force_orphan: true
