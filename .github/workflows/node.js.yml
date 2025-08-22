@@ -32,9 +32,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-<<<<<<< HEAD
           publish_dir: ./dist
-=======
-          publish_dir: .
-          force_orphan: true
->>>>>>> 64be528faec04ad66db8e1e0559b82024f045e74
