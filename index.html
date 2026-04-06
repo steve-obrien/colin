@@ -34,8 +34,8 @@
 
 <script type="module">
 
-	import lightGallery from "https://cdn.skypack.dev/lightgallery@2.0.0-beta.4";
-	import lgZoom from "https://cdn.skypack.dev/lightgallery@2.0.0-beta.4/plugins/zoom";
+	import lightGallery from "https://cdn.jsdelivr.net/npm/lightgallery@2.8.2/+esm";
+	import lgZoom from "https://cdn.jsdelivr.net/npm/lightgallery@2.8.2/plugins/zoom/+esm";
 
 	const { createApp } = Vue;
 	createApp({
@@ -48,6 +48,9 @@
 		async created() {
 			try {
 				const response = await fetch('paintings/images.json');
+				if (!response.ok) {
+					throw new Error(`Could not load paintings/images.json (HTTP ${response.status})`);
+				}
 				this.paintings = await response.json();
 				// Initialize gallery after paintings are loaded
 				this.$nextTick(() => {
